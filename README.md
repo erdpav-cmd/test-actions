@@ -76,10 +76,37 @@ docker run -p 8000:8000 time-api
 
 API будет доступен по адресу: http://localhost:8000
 
+## CI/CD (GitHub Actions)
+
+Workflow `.github/workflows/deploy.yml`:
+
+1. **build** — multi-platform сборка (`amd64` + `arm64`), push в GHCR, кэш GitHub Actions.
+2. **deploy** — SSH на сервер, pull образа и запуск контейнера.
+
+Подробнее: [DEPLOYMENT.md](DEPLOYMENT.md)
+
+### Триггеры
+
+- Push в `main` / `master` — сборка + деплой
+- Pull Request в `main` / `master` — только сборка
+
+### Секреты репозитория
+
+| Секрет | Описание |
+|--------|----------|
+| `HOST` | IP или домен сервера |
+| `USERNAME` | Пользователь SSH |
+| `SSH_KEY` | Приватный SSH-ключ |
+| `PORT` | Порт SSH (обычно `22`) |
+
 ## Структура проекта
 
 ```
 .
+├── .github/
+│   └── workflows/
+│       └── deploy.yml  # CI/CD: сборка образа и деплой
+├── DEPLOYMENT.md     # Инструкция по деплою
 ├── main.py           # Приложение FastAPI
 ├── requirements.txt  # Зависимости Python
 ├── Dockerfile        # Сборка Docker-образа
