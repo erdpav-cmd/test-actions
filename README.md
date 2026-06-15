@@ -24,6 +24,7 @@ uvicorn main:app --reload
 | GET   | `/time`       | Текущее время сервера (UTC)      |
 | GET   | `/date`       | Текущая дата сервера (UTC)       |
 | GET   | `/date/local` | Текущая дата в локальном часовом поясе |
+| GET   | `/time/convert` | Конвертация времени между часовыми поясами |
 | GET   | `/docs`       | Swagger UI                       |
 
 ### Пример ответа `/time`
@@ -57,6 +58,23 @@ uvicorn main:app --reload
   "month": 6,
   "day": 15,
   "weekday": "Monday"
+}
+```
+
+### Пример запроса `/time/convert`
+
+```
+GET /time/convert?time=2026-06-15T14:30:00&from_timezone=Europe/Moscow&to_timezone=America/New_York
+```
+
+### Пример ответа `/time/convert`
+
+```json
+{
+  "original_time": "2026-06-15T14:30:00+03:00",
+  "from_timezone": "Europe/Moscow",
+  "converted_time": "2026-06-15T07:30:00-04:00",
+  "to_timezone": "America/New_York"
 }
 ```
 
