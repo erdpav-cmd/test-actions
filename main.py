@@ -17,3 +17,29 @@ def get_server_time():
         "utc": now.isoformat(),
         "timestamp": now.timestamp(),
     }
+
+
+@app.get("/date")
+def get_server_date():
+    today = datetime.now(timezone.utc).date()
+    return {
+        "utc": today.isoformat(),
+        "year": today.year,
+        "month": today.month,
+        "day": today.day,
+        "weekday": today.strftime("%A"),
+    }
+
+
+@app.get("/date/local")
+def get_local_server_date():
+    now = datetime.now().astimezone()
+    today = now.date()
+    return {
+        "date": today.isoformat(),
+        "timezone": now.tzname(),
+        "year": today.year,
+        "month": today.month,
+        "day": today.day,
+        "weekday": today.strftime("%A"),
+    }
